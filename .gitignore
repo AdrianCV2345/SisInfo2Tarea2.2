@@ -1,0 +1,18 @@
+# Carpetas y archivos generados por Terraform
+.terraform/
+.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+
+# Archivos locales que pueden contener credenciales o datos sensibles
+terraform.tfvars
+*.tfvars
+datos.txt
+
+# Archivos de respaldo
+*.tfstate.backup
