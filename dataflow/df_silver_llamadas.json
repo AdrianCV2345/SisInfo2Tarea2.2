@@ -1,0 +1,133 @@
+{
+	"name": "df_silver_llamadas",
+	"properties": {
+		"folder": {
+			"name": "Silver"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_sql_03",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ds_sql_silver_llamadas",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "cast1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "cast2"
+				},
+				{
+					"name": "derivedColumn2"
+				},
+				{
+					"name": "derivedColumn3"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          servicio as string,",
+				"          registro as string,",
+				"          numero_a as string,",
+				"          imei_a as string,",
+				"          rbs_utilizada_a as string,",
+				"          celda_a as string,",
+				"          latitud_longitud_a as string,",
+				"          numero_b as string,",
+				"          imei_b as string,",
+				"          rbs_utilizada_b as string,",
+				"          celda_b as string,",
+				"          latitud_longitud_b as string,",
+				"          fecha as string,",
+				"          duracion as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source1 cast(output(",
+				"          fecha as timestamp 'dd-MM-yyyy'",
+				"     ),",
+				"     errors: true) ~> cast1",
+				"cast1 derive(duracion = replace(duracion, '-', '00:00:00'),",
+				"          latitud_longitud_a = iif(latitud_longitud_a  == \"-\" , '-0,0,-0,0', latitud_longitud_a),",
+				"          latitud_longitud_b = iif(latitud_longitud_b  == \"-\" , '-0,0,-0,0', latitud_longitud_b)) ~> derivedColumn1",
+				"derivedColumn1 cast(output(",
+				"          duracion as timestamp 'HH:mm:ss'",
+				"     ),",
+				"     errors: true) ~> cast2",
+				"cast2 derive(latitud_a = substring(latitud_longitud_a, 0, instr(latitud_longitud_a, \",-\")-1)\r",
+				",",
+				"          longitud_a = substring(latitud_longitud_a,instr(latitud_longitud_a, \",-\")+1,length(latitud_longitud_a))\r",
+				") ~> derivedColumn2",
+				"derivedColumn2 derive(latitud_b = substring(latitud_longitud_a, 0, instr(latitud_longitud_a, \",-\")-1)\r",
+				",",
+				"          longitud_b = substring(latitud_longitud_b,instr(latitud_longitud_b, \",-\")+1,length(latitud_longitud_b))\r",
+				") ~> derivedColumn3",
+				"derivedColumn3 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          servicio as string,",
+				"          registro as string,",
+				"          numero_a as string,",
+				"          imei_a as string,",
+				"          rbs_utilizada_a as string,",
+				"          celda_a as string,",
+				"          latitud_a as decimal(10,7),",
+				"          longitud_a as decimal(10,7),",
+				"          numero_b as string,",
+				"          imei_b as string,",
+				"          rbs_utilizada_b as string,",
+				"          celda_b as string,",
+				"          latitud_b as decimal(10,7),",
+				"          longitud_b as decimal(10,7),",
+				"          fecha as timestamp,",
+				"          duracion as timestamp",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError',",
+				"     mapColumn(",
+				"          servicio,",
+				"          registro,",
+				"          numero_a,",
+				"          imei_a,",
+				"          rbs_utilizada_a,",
+				"          celda_a,",
+				"          latitud_a,",
+				"          longitud_a,",
+				"          numero_b,",
+				"          imei_b,",
+				"          rbs_utilizada_b,",
+				"          celda_b,",
+				"          latitud_b,",
+				"          longitud_b,",
+				"          fecha,",
+				"          duracion",
+				"     )) ~> sink1"
+			]
+		}
+	}
+}
