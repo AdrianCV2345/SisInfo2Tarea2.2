@@ -1,0 +1,29 @@
+{
+	"name": "ds_gold_dim_servicio",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_dw_entel",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_servicio",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "servicio",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_servicio"
+		}
+	}
+}

@@ -1,0 +1,29 @@
+{
+	"name": "ds_gold_dim_registro",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_dw_entel",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_registro",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "registro",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "dim_registro"
+		}
+	}
+}

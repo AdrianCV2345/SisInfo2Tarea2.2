@@ -1,0 +1,65 @@
+{
+	"name": "ds_gold_dim_llamadas",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_sql_dw_entel",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "Gold"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "id_llamada",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "duracion",
+				"type": "time",
+				"scale": 7
+			},
+			{
+				"name": "id_servicio",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_registro",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_numera_a",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_radiobase_a",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_numero_b",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_radiobase_b",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "id_fecha",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "gold",
+			"table": "hechos_llamadas"
+		}
+	}
+}
